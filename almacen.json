@@ -1,0 +1,111 @@
+{
+    "usuarios": [
+      {
+        "id": "1",
+        "username": "usuario1",
+        "email": "usuario1@mail.cl",
+        "password": "duoc1234",
+        "isactive": true,
+        "role": "user"
+      },
+      {
+        "id": "2",
+        "username": "usuario2",
+        "email": "usuario2@mail.cl",
+        "password": "maipu1234",
+        "isactive": true,
+        "role": "user"
+      },
+      {
+        "id": "4",
+        "username": "user12345",
+        "email": "user@mail.cl",
+        "password": "user123456",
+        "isactive": true,
+        "role": "user"
+      },
+      {
+        "id": "a096",
+        "username": "eldeigos194",
+        "email": "deigos@gmail.com",
+        "password": "eldeigos194",
+        "isactive": true,
+        "role": "user"
+      },
+      {
+        "id": "12c9",
+        "username": "usuario5",
+        "email": "camilo@gmail.com",
+        "password": "duoc12345",
+        "role": "user",
+        "isactive": true
+      },
+      {
+        "id": "0dc1",
+        "username": "elcoringansekisde",
+        "email": "ekisdethejoker@mx.cl",
+        "password": "thejajasekisde",
+        "role": "user",
+        "isactive": true
+      },
+      {
+        "id": "85a5",
+        "username": "elcamilo",
+        "email": "elcaminski@gmil.com",
+        "password": "wsp123456",
+        "rut": "12.333.222-3",
+        "role": "user",
+        "isactive": true
+      }
+    ],
+    "admin": [
+      {
+        "id": "3",
+        "username": "admin12345",
+        "email": "admin@mail.cl",
+        "password": "admin12345",
+        "isactive": true,
+        "role": "admin"
+      },
+      {
+        "id": "2",
+        "username": "admin",
+        "email": "admin@mail.cl",
+        "password": "admin123",
+        "isactive": true,
+        "role": "superadmin",
+        "rut": "12.345.678-9"
+      },
+      {
+        "id": "0ion5n749",
+        "username": "jajadmin1234",
+        "email": "jajadmin1234@gmial.com",
+        "password": "jajadmin1234",
+        "rut": "21333333-2",
+        "role": "admin",
+        "isactive": true
+      }
+    ],
+    "eventos": [
+      {
+        "id": "1",
+        "nombre": "Primer Evento del siglo",
+        "descripcion": "Este es el primer evento del universo",
+        "fecha": "2024-12-12",
+        "ubicacion": "duoc",
+        "cupos": 100,
+        "imagen": "assets/images/evento.png",
+        "usuariosRegistrados": []
+      },
+      {
+        "id": "2",
+        "nombre": "evento navidad",
+        "descripcion": "Este es el segundo evento",
+        "fecha": "2024-12-02",
+        "ubicacion": "Ubicación de prueba 2",
+        "cupos": 200,
+        "imagen": "assets/images/evento.png",
+        "usuariosRegistrados": []
+      }
+    ]
+  }
