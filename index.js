@@ -11,21 +11,19 @@ server.use(cors());
 server.use((req, res, next) => {
   if (req.method === 'PUT' || req.method === 'PATCH') {
     const body = req.body;
-
-    // Si el cuerpo de la solicitud contiene datos sensibles, los eliminamos
-    const allowedFields = ['username', 'email', 'password'];
+    const allowedFields = ['username', 'email', 'password']; // Campos permitidos para modificar
     const userId = body.id;
 
     // Obtener datos existentes del usuario
     const existingUser = router.db.get('admin').find({ id: userId }).value();
 
     if (existingUser) {
-      // Si no se incluyen estos campos, conservamos los valores existentes
-      body.rut = existingUser.rut || body.rut; // Preservamos el 'rut'
-      body.role = existingUser.role || body.role; // Preservamos el 'role'
-      body.isactive = existingUser.isactive || body.isactive; // Preservamos el 'isactive'
+      // Preservamos el 'rut', 'role', y 'isactive' si no se proporcionan nuevos valores
+      body.rut = existingUser.rut || body.rut;
+      body.role = existingUser.role || body.role;
+      body.isactive = existingUser.isactive || body.isactive;
 
-      // Eliminar los campos no permitidos
+      // Eliminar campos no permitidos
       for (let key in body) {
         if (!allowedFields.includes(key)) {
           delete body[key]; // Eliminar los campos que no sean 'username', 'email', 'password'
