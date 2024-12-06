@@ -11,8 +11,13 @@ server.use(cors());
 server.use((req, res, next) => {
   if (req.method === 'PUT' || req.method === 'PATCH') {
     const body = req.body;
-    const allowedFields = ['username', 'email', 'password']; // Campos permitidos para modificar
+    const allowedFields = ['username', 'email', 'password'];
     const userId = body.id;
+
+    // Verificar si 'id' está presente en el cuerpo de la solicitud
+    if (!userId) {
+      return res.status(400).json({ error: "El 'id' del usuario es requerido" });
+    }
 
     // Obtener datos existentes del usuario
     const existingUser = router.db.get('admin').find({ id: userId }).value();
