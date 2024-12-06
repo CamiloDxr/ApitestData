@@ -17,17 +17,19 @@ server.use((req, res, next) => {
     // Obtener datos existentes del usuario
     const existingUser = router.db.get('admin').find({ id: userId }).value();
 
-    if (existingUser) {
-      // Preservamos el 'rut', 'role', y 'isactive' si no se proporcionan nuevos valores
-      body.rut = existingUser.rut || body.rut;
-      body.role = existingUser.role || body.role;
-      body.isactive = existingUser.isactive || body.isactive;
+    if (!existingUser) {
+      return res.status(404).json({ error: "Usuario no encontrado" }); // Si no se encuentra el usuario
+    }
 
-      // Eliminar campos no permitidos
-      for (let key in body) {
-        if (!allowedFields.includes(key)) {
-          delete body[key]; // Eliminar los campos que no sean 'username', 'email', 'password'
-        }
+    // Preservamos el 'rut', 'role', y 'isactive' si no se proporcionan nuevos valores
+    body.rut = existingUser.rut || body.rut;
+    body.role = existingUser.role || body.role;
+    body.isactive = existingUser.isactive || body.isactive;
+
+    // Eliminar campos no permitidos
+    for (let key in body) {
+      if (!allowedFields.includes(key)) {
+        delete body[key];
       }
     }
   }
