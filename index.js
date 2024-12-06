@@ -50,6 +50,9 @@ server.use((req, res, next) => {
 
     // Agregar depuración para verificar los datos actualizados
     console.log("Usuario actualizado:", updatedUser);
+
+    // Responder con el usuario actualizado
+    res.status(200).json(updatedUser); // Retorna el usuario actualizado
   }
   next();
 });
