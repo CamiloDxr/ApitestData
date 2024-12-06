@@ -14,6 +14,10 @@ server.use((req, res, next) => {
     const allowedFields = ['username', 'email', 'password'];
     const userId = body.id;
 
+    // Agregar depuración para verificar los datos recibidos
+    console.log("Datos recibidos para actualizar:", body);
+    console.log("ID recibido:", userId);
+
     // Verificar si 'id' está presente en el cuerpo de la solicitud
     if (!userId) {
       return res.status(400).json({ error: "El 'id' del usuario es requerido" });
@@ -21,6 +25,9 @@ server.use((req, res, next) => {
 
     // Obtener datos existentes del usuario
     const existingUser = router.db.get('admin').find({ id: userId }).value();
+
+    // Agregar depuración para verificar si el usuario existe
+    console.log("Usuario encontrado:", existingUser);
 
     if (!existingUser) {
       return res.status(404).json({ error: "Usuario no encontrado" }); // Si no se encuentra el usuario
@@ -39,7 +46,10 @@ server.use((req, res, next) => {
     }
 
     // Actualizar los datos del usuario en la base de datos
-    router.db.get('admin').find({ id: userId }).assign(body).write();
+    const updatedUser = router.db.get('admin').find({ id: userId }).assign(body).write();
+
+    // Agregar depuración para verificar los datos actualizados
+    console.log("Usuario actualizado:", updatedUser);
   }
   next();
 });
