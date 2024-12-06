@@ -29,9 +29,12 @@ server.use((req, res, next) => {
     // Eliminar campos no permitidos
     for (let key in body) {
       if (!allowedFields.includes(key)) {
-        delete body[key];
+        delete body[key]; // Eliminar los campos que no sean 'username', 'email', 'password'
       }
     }
+
+    // Actualizar los datos del usuario en la base de datos
+    router.db.get('admin').find({ id: userId }).assign(body).write();
   }
   next();
 });
