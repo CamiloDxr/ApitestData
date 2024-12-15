@@ -85,6 +85,7 @@
         "role": "admin",
         "isactive": true
       }, 
+      {
         "id": "21",
         "username": "camiloadmin1234",
         "email": "cami.pobleter@duocuc.cl",
@@ -92,6 +93,8 @@
         "rut": "21323333-2",
         "role": "admin",
         "isactive": true
+      }
+        
     ],
     "eventos": [
       {
