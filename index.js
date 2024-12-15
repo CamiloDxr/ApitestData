@@ -8,6 +8,7 @@ const port = process.env.PORT || 10000;
 
 // Middleware para procesar el cuerpo de las solicitudes
 server.use(express.json()); // Procesa el cuerpo de las solicitudes como JSON
+
 // Middleware para habilitar CORS
 server.use(cors());
 
@@ -57,6 +58,7 @@ server.use((req, res, next) => {
 
 server.use(middlewares);
 server.use(router);
+
 server.listen(port, () => {
   console.log(`JSON Server is running on port ${port}`);
 });
