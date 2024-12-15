@@ -51,6 +51,30 @@ server.post('/inscripciones', (req, res) => {
   return res.status(200).json({ success: "Usuario inscrito correctamente" });
 });
 
+// Ruta para recuperación de contraseña
+server.post('/admin/reset-password', (req, res) => {
+  const { email } = req.body;
+
+  // Buscar al administrador por email
+  const admin = router.db.get('admin').find({ email }).value();
+
+  if (!admin) {
+    return res.status(404).json({ error: 'Administrador no encontrado' });
+  }
+
+  // Generar una nueva contraseña aleatoria
+  const nuevaContrasena = Math.random().toString(36).substring(2, 10);
+  admin.password = nuevaContrasena;
+
+  // Actualizar la contraseña en la base de datos
+  router.db.get('admin').find({ email }).assign({ password: nuevaContrasena }).write();
+
+  // Simular envío de correo (esto se haría con un servicio real)
+  console.log(`Correo enviado a ${email} con la nueva contraseña: ${nuevaContrasena}`);
+
+  return res.status(200).json({ message: 'Correo enviado con éxito. Revisa tu bandeja de entrada.' });
+});
+
 // No olvides usar los middlewares y el router al final
 server.use(middlewares);
 server.use(router);
