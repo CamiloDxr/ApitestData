@@ -56,6 +56,45 @@ server.use((req, res, next) => {
   next();
 });
 
+// Middleware para actualizar los eventos
+server.use((req, res, next) => {
+  if (req.method === 'PUT' || req.method === 'PATCH') {
+    console.log("Cuerpo de la solicitud:", req.body); // Verifica el contenido del cuerpo de la solicitud
+
+    const body = req.body;
+    const eventId = body.id;
+
+    // Verificar si el 'id' está presente en el cuerpo de la solicitud
+    if (!eventId) {
+      return res.status(400).json({ error: "El 'id' del evento es requerido" });
+    }
+
+    // Obtener datos existentes del evento
+    const existingEvent = router.db.get('eventos').find({ id: eventId }).value();
+
+    // Verificar si el evento existe
+    if (!existingEvent) {
+      return res.status(404).json({ error: "Evento no encontrado" }); // Si no se encuentra el evento
+    }
+
+    // Preservar campos anteriores si no se proporcionan nuevos valores
+    body.nombre = body.nombre || existingEvent.nombre;
+    body.descripcion = body.descripcion || existingEvent.descripcion;
+    body.fecha = body.fecha || existingEvent.fecha;
+    body.ubicacion = body.ubicacion || existingEvent.ubicacion;
+    body.cupos = body.cupos || existingEvent.cupos;
+    body.imagen = body.imagen || existingEvent.imagen;
+
+    // Actualizar los datos del evento en la base de datos
+    const updatedEvent = router.db.get('eventos').find({ id: eventId }).assign(body).write();
+
+    // Responder con el evento actualizado
+    console.log("Evento actualizado:", updatedEvent); // Verifica los datos actualizados
+    res.status(200).json(updatedEvent); // Retorna el evento actualizado
+  }
+  next();
+});
+
 server.use(middlewares);
 server.use(router);
 
