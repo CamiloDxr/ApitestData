@@ -110,7 +110,8 @@
     ],
     "participantes": [
         {
-            
+          "eventoId": "1",
+          "usuarioId": "1"
         }
     ]
   }
