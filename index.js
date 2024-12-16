@@ -13,11 +13,9 @@ server.use(express.json()); // Procesa el cuerpo de las solicitudes como JSON
 // Middleware para habilitar CORS
 server.use(cors());
 
-// Middleware para asegurarse de que solo los campos permitidos sean modificados
+// Middleware para asegurarse de que solo los campos permitidos sean modificados en usuarios
 server.use((req, res, next) => {
   if (req.method === 'PUT' || req.method === 'PATCH') {
-    console.log("Cuerpo de la solicitud:", req.body); // Verifica el contenido del cuerpo de la solicitud
-
     const body = req.body;
     const allowedFields = ['username', 'email', 'password'];
     const userId = body.id;
@@ -28,11 +26,11 @@ server.use((req, res, next) => {
     }
 
     // Obtener datos existentes del usuario
-    const existingUser = router.db.get('usuarios').find({ id: userId }).value(); // Cambiar "admin" a "usuarios"
+    const existingUser = router.db.get('usuarios').find({ id: userId }).value();
 
     // Verificar si el usuario existe
     if (!existingUser) {
-      return res.status(404).json({ error: "Usuario no encontrado" }); // Si no se encuentra el usuario
+      return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
     // Preservamos el 'rut', 'role', y 'isactive' si no se proporcionan nuevos valores
@@ -48,11 +46,10 @@ server.use((req, res, next) => {
     }
 
     // Actualizar los datos del usuario en la base de datos
-    const updatedUser = router.db.get('usuarios').find({ id: userId }).assign(body).write(); // Cambiar "admin" a "usuarios"
+    const updatedUser = router.db.get('usuarios').find({ id: userId }).assign(body).write();
 
     // Responder con el usuario actualizado
-    console.log("Usuario actualizado:", updatedUser); // Verifica los datos actualizados
-    res.status(200).json(updatedUser); // Retorna el usuario actualizado
+    res.status(200).json(updatedUser);
   }
   next();
 });
@@ -60,8 +57,6 @@ server.use((req, res, next) => {
 // Middleware para actualizar los eventos
 server.use((req, res, next) => {
   if (req.method === 'PUT' || req.method === 'PATCH') {
-    console.log("Cuerpo de la solicitud:", req.body); // Verifica el contenido del cuerpo de la solicitud
-
     const body = req.body;
     const eventId = body.id;
 
@@ -75,7 +70,7 @@ server.use((req, res, next) => {
 
     // Verificar si el evento existe
     if (!existingEvent) {
-      return res.status(404).json({ error: "Evento no encontrado" }); // Si no se encuentra el evento
+      return res.status(404).json({ error: "Evento no encontrado" });
     }
 
     // Preservar campos anteriores si no se proporcionan nuevos valores
@@ -90,8 +85,7 @@ server.use((req, res, next) => {
     const updatedEvent = router.db.get('eventos').find({ id: eventId }).assign(body).write();
 
     // Responder con el evento actualizado
-    console.log("Evento actualizado:", updatedEvent); // Verifica los datos actualizados
-    res.status(200).json(updatedEvent); // Retorna el evento actualizado
+    res.status(200).json(updatedEvent);
   }
   next();
 });
@@ -115,7 +109,7 @@ server.post("/recover-password", (req, res) => {
   }
 
   // Buscar al usuario por correo electrónico en la base de datos
-  const user = router.db.get("usuarios").find({ email }).value(); // Cambiar "admin" a "usuarios"
+  const user = router.db.get("usuarios").find({ email }).value();
 
   // Verificar si el usuario existe
   if (!user) {
@@ -124,7 +118,7 @@ server.post("/recover-password", (req, res) => {
 
   // Actualizar la contraseña del usuario
   user.password = newPassword; // Cambia la contraseña
-  router.db.get("usuarios").find({ email }).assign(user).write(); // Cambiar "admin" a "usuarios"
+  router.db.get("usuarios").find({ email }).assign(user).write();
 
   // Enviar correo de confirmación
   const mailOptions = {
@@ -142,7 +136,6 @@ server.post("/recover-password", (req, res) => {
   });
 
   // Retornar respuesta exitosa
-  console.log(`Contraseña actualizada para el usuario con email: ${email}`);
   res.status(200).json({ message: "Contraseña actualizada con éxito y correo enviado." });
 });
 
