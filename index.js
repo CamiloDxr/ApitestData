@@ -28,7 +28,7 @@ server.use((req, res, next) => {
     }
 
     // Obtener datos existentes del usuario
-    const existingUser = router.db.get('admin').find({ id: userId }).value();
+    const existingUser = router.db.get('usuarios').find({ id: userId }).value(); // Cambiar "admin" a "usuarios"
 
     // Verificar si el usuario existe
     if (!existingUser) {
@@ -48,7 +48,7 @@ server.use((req, res, next) => {
     }
 
     // Actualizar los datos del usuario en la base de datos
-    const updatedUser = router.db.get('admin').find({ id: userId }).assign(body).write();
+    const updatedUser = router.db.get('usuarios').find({ id: userId }).assign(body).write(); // Cambiar "admin" a "usuarios"
 
     // Responder con el usuario actualizado
     console.log("Usuario actualizado:", updatedUser); // Verifica los datos actualizados
@@ -115,7 +115,7 @@ server.post("/recover-password", (req, res) => {
   }
 
   // Buscar al usuario por correo electrónico en la base de datos
-  const user = router.db.get("admin").find({ email }).value();
+  const user = router.db.get("usuarios").find({ email }).value(); // Cambiar "admin" a "usuarios"
 
   // Verificar si el usuario existe
   if (!user) {
@@ -124,7 +124,7 @@ server.post("/recover-password", (req, res) => {
 
   // Actualizar la contraseña del usuario
   user.password = newPassword; // Cambia la contraseña
-  router.db.get("admin").find({ email }).assign(user).write();
+  router.db.get("usuarios").find({ email }).assign(user).write(); // Cambiar "admin" a "usuarios"
 
   // Enviar correo de confirmación
   const mailOptions = {
