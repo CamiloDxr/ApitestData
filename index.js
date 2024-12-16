@@ -95,32 +95,6 @@ server.use((req, res, next) => {
   next();
 });
 
-// Ruta para la recuperación de contraseña
-server.post("/recover-password", (req, res) => {
-  const { email, newPassword } = req.body;
-
-  // Validar que el correo y la nueva contraseña estén presentes
-  if (!email || !newPassword) {
-    return res.status(400).json({ error: "Email y nueva contraseña son requeridos" });
-  }
-
-  // Buscar al usuario por correo electrónico
-  const user = router.db.get("usuarios").find({ email }).value();
-
-  // Validar si el usuario existe
-  if (!user) {
-    return res.status(404).json({ error: "Usuario no encontrado" });
-  }
-
-  // Actualizar la contraseña del usuario
-  user.password = newPassword;
-  router.db.get("usuarios").find({ email }).assign(user).write();
-
-  // Retornar respuesta exitosa
-  console.log(`Contraseña actualizada para el usuario con email: ${email}`);
-  res.status(200).json({ message: "Contraseña actualizada con éxito" });
-});
-
 server.use(middlewares);
 server.use(router);
 
